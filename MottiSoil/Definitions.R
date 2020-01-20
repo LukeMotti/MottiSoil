@@ -133,6 +133,7 @@ YassoCC <- FALSE       #Whether climate change effects are present --
 YassoOutputPath <- 'Result/'
 YassoOutputLitter <- paste(YassoOutputPath,"litt.dat",sep="")
 YassoOutputStockPerHa <- paste(YassoOutputPath,"CStockPerHa.dat",sep="")
+YassoOutputCO2 <- paste(YassoOutputPath,"CO2Result.dat",sep="")
 
 
 
