@@ -245,7 +245,7 @@ if(Region == 1) {            #Southern Finland
 # All are nwl
 
 for(i in 1:length(simulationPeriod)) {
-      inputLitter[i,2:5] <- inputLitter[i,2:5] + Akankaat*t(undLitt)[1:4]
+      inputLitter[i,2:5] <- inputLitter[i,2:5] + 0.0*Akankaat*t(undLitt)[1:4]
 }
 
 
@@ -302,8 +302,11 @@ for(i in 1:3) {
 # temperature, precipitation, temp. amplitude, in weatherFunction the
 # "order" of variables is mean temp, temp amplitude, precipitation.
 
-lout<-data.frame(matrix(0,nrow=length(simulationPeriod),ncol=7))
-colnames(lout)=c("year","nwls","fwls","cwls","nwln","fwln","cwln")
+
+#lout contains litter fed into Yasso each simulation year with break down
+# non woody, fine woody and coarse woody litter.
+lout<-data.frame(matrix(0,nrow=length(simulationPeriod),ncol=4))
+colnames(lout)=c("year","litter_nwl","litter_fwls","litter_cwls")
 lout[,1] = simulationPeriod
 
 step = 1
@@ -323,7 +326,7 @@ if(YassoSpinUp) {
      e = c(weatherFunction(inity,1,1),weatherFunction(inity,1,3),weatherFunction(inity,1,2))
      spininput =c(mean(inputLitter[,2]),mean(inputLitter[,3]),
                              mean(inputLitter[,4]),mean(inputLitter[,5]),0)
-     initnwl <- yasso07(YassoParameters, 10000, e, init, spininput, diameter, zDummy)
+     initnwl <- Yassox0Factor*yasso07(YassoParameters, 10000, e, init, spininput, diameter, zDummy)
      } else {
          if(Region == 1) {
              initnwl = Yassox0Factor * initialState[,1]
@@ -356,7 +359,7 @@ if(YassoSpinUp) {
      e = c(weatherFunction(inity,1,1),weatherFunction(inity,1,3),weatherFunction(inity,1,2))
      spininput =c(mean(inputLitter[,6]),mean(inputLitter[,7]),
                              mean(inputLitter[,8]),mean(inputLitter[,9]),0)
-     initfwl <- yasso07(YassoParameters, 10000, e, init, spininput, diameter, zDummy)
+     initfwl <- Yassox0Factor*yasso07(YassoParameters, 10000, e, init, spininput, diameter, zDummy)
      } else {
          if(Region == 1) {
              initfwl = Yassox0Factor * initialState[,2]
@@ -387,7 +390,7 @@ if(YassoSpinUp) {
      e = c(weatherFunction(inity,1,1),weatherFunction(inity,1,3),weatherFunction(inity,1,2))
      spininput =c(mean(inputLitter[,10]),mean(inputLitter[,11]),
                              mean(inputLitter[,12]),mean(inputLitter[,13]),0)
-     initcwl <- yasso07(YassoParameters, 10000, e, init, spininput, diameter, zDummy)
+     initcwl <- Yassox0Factor*yasso07(YassoParameters, 10000, e, init, spininput, diameter, zDummy)
      } else {
          if(Region == 1) {
              initcwl = Yassox0Factor * initialState[,3]
@@ -431,8 +434,4 @@ yassoresult <- cbind(yassoresult,wasteLitter[,2:7],mortLitter[,2:7])
                          
 colnames(yassoresult) <- c("year","mineralLitter","C_mineral",colnames(wasteLitter)[2:7],
                    colnames(mortLitter)[2:7])
-
-
-
-
 
