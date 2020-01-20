@@ -41,3 +41,4 @@ CO2result <- as.data.frame(cbind(yassoresult[,1],-44*yassoresult[,3]*1.0e-6/12,-
 
 colnames(CO2result) <- c("year","CO2_min", "CO2_org","Litt_min","Litt_org")
 
+write.table(round(CO2result,4), file=YassoOutputCO2,row.names=FALSE )
